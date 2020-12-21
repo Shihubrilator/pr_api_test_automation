@@ -1,0 +1,39 @@
+sqldb:
+  host: dubnium\testsql16
+  db: qa_PanelRiderDB
+  user: testdbuser
+  passwd: 111111
+panels:
+  em:
+    id: 1029695
+  ob:
+    id: 161373312
+  oy:
+    id: 183597234
+pr:
+  login: admin@expertnoemnenie.ru
+  passwd: 111111
+  domain: http://qa.panelrider.com/
+  api_path:
+    1: api/v2/admin/panel/
+  headers:
+    accept: application/json
+    content_type: application/json
+test_data:
+  existing_email: vsevolod.ovchinnikov@gmail.com
+  user_id: 187567053 #187565196
+  project_id: 175784522
+  culture: ru-Ru
+  city_id: 11902
+  state_id: 2156
+  country_id: 1019
+  referrer_id: 900002
+  referral_id: 190606755
+  invitation_id: 190834629
+  rating_user_id: 190868777
+  json: {"Id": 187579300,"Name": "Тестр","Surname": "Тестр","BirthDate": "1999-06-21T00:00:00","Gender": 2,"PostalCode": null,"CountryId": 1001,"CountryName": "Российская Федерация","StateId": 2044,"StateName": "Калужская область","CityId": 10521,"CityName": null,"CurrencyId": 301,"CurrencyCode": null,"Rating": 100,"PassedSurveysCount": null,"LastPassedSurveyDT": null,"Age": 19}
+  clientstaff_id: 1436505
+  ct_proj_id: 190611918
+  ct_proj_id_post: 216616120
+  ct_proj_id_arch: 190611918
+  ct_id: 186382177
