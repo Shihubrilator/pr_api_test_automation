@@ -33,8 +33,8 @@ test_data:
   rating_user_id: 190868777
   json: {"Id": 187579300,"Name": "Тестр","Surname": "Тестр","BirthDate": "1999-06-21T00:00:00","Gender": 2,"PostalCode": null,"CountryId": 1001,"CountryName": "Российская Федерация","StateId": 2044,"StateName": "Калужская область","CityId": 10521,"CityName": null,"CurrencyId": 301,"CurrencyCode": null,"Rating": 100,"PassedSurveysCount": null,"LastPassedSurveyDT": null,"Age": 19}
   clientstaff_id: 1436505
-  ct_proj_id: 765178867
+  ct_proj_id: 765205094
   ct_proj_id_post: 216616120
-  ct_proj_id_arch: 190611918
-  ct_id: 186382177
+  ct_proj_id_arch: 696433676
+  ct_id: 765178869
   withdrawal_id: 748812048

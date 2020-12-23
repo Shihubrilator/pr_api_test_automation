@@ -8,8 +8,5 @@ def test_GET_Audit_200(pr_url, pr_headers, config):
     }
     request_url = pr_url + str(config['panels']['em']['id']) + '/audit'
     r = requests.get(url=request_url, headers=pr_headers, params=params)
-    try:
-        assert isinstance(r.json()['Data'], list)
-        assert len(r.json()['Data']) > 0
-    except:
-        assert False, "Случился самшит"
+    assert isinstance(r.json()['Data'], list)
+    assert len(r.json()['Data']) > 0

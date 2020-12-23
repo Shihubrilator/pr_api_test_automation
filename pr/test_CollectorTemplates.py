@@ -30,7 +30,6 @@ def test_GET_CollectorTemplatesId_200(pr_url, pr_headers, config, conn):
     request_url = pr_url + str(config['panels']['em']['id']) + '/collectortemplates/' + \
                   str(config['test_data']['ct_id'])
     r = requests.get(url=request_url, headers=pr_headers)
-    data = r.json()['Data']
     cursor = conn.cursor()
     cursor.execute('select sct.Id, sct.SurveyId, sct.PanelId, sct.ValidationType, sct.Name, sct.AutoFill, sct.Deleted,\
                     pnl.Name, srv.InnerName, srv.SettingsJSON, sct.SettingsJSON, srv.State\
@@ -39,6 +38,7 @@ def test_GET_CollectorTemplatesId_200(pr_url, pr_headers, config, conn):
                     join data.Panels pnl on sct.PanelId = pnl.Id\
                     where sct.Id = ' + str(config['test_data']['ct_id']))
     xpctd_data = cursor.fetchone()
+    data = r.json()['Data']
     assert data['Id'] == xpctd_data[0]
     assert data['SurveyId'] == xpctd_data[1]
     assert data['PanelId'] == xpctd_data[2]
