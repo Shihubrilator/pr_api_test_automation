@@ -16,7 +16,7 @@ def test_GET_Clietstaff_200(pr_url, pr_headers, config, conn):
     assert data['Position'] == expected_data[4]
     assert data['Birthdate'] == expected_data[5]
     assert data['Notes'] == expected_data[6]
-    assert data['Updated'] == expected_data[7].isoformat()
+    assert data['Updated'] == expected_data[7].isoformat()[0:22]
     assert data['Deleted'] == expected_data[8]
 
 
@@ -36,7 +36,7 @@ def test_GET_ClietstaffId_200(pr_url, pr_headers, config, conn):
     assert data['Position'] == expected_data[4]
     assert data['Birthdate'] == expected_data[5]
     assert data['Notes'] == expected_data[6]
-    assert data['Updated'] == expected_data[7].isoformat()
+    assert data['Updated'] == expected_data[7].isoformat()[0:22]
     assert data['Deleted'] == expected_data[8]
 
 

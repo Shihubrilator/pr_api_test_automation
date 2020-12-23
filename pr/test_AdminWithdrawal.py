@@ -52,11 +52,13 @@ def test_GET_AdminWithdrawalId_200(pr_url, pr_headers, config, conn):
     assert data['RequestTypeId'] == expected_data[1]
     assert data['CurrencyId'] == expected_data[2]
     assert data['Amount'] == float('{:.2f}'.format(expected_data[3]))
-    wallet = data['Requisites']['Wallet']
-    expected_wallet = json.loads(expected_data[4])['Wallet']
-    assert wallet['CountryId'] == expected_wallet['CountryId']
-    assert wallet['Type'] == expected_wallet['Type']
-    assert wallet['Number'] == expected_wallet['Number']
+    requisites = data['Requisites']['Phone']
+    expected_wallet = json.loads(expected_data[4])['Phone']
+    assert requisites['CountryId'] == expected_wallet['CountryId']
+    assert requisites['CountryCode'] == expected_wallet['CountryCode']
+    #assert requisites['Type'] == expected_wallet['Type']
+    assert requisites['Number'] == expected_wallet['Number']
+    assert requisites['Operator'] == expected_wallet['Operator']
     assert data['Updated'][:-1] == expected_data[5].isoformat()
     assert data['PanelUserNiceName'] == expected_data[6]
 
