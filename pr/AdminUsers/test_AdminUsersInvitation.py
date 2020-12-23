@@ -3,14 +3,15 @@ import json
 
 
 def test_GET_AdminUserInvitation_200(pr_url, pr_headers, config, conn):
-    param_sort = '?sort=Created-desc'
-    param_page = '&page=1'
-    param_pageSize = '&pageSize=20'
-    param_group = '&group'
-    param_filter = '&filter=PanelUserId~eq~' + str(config['test_data']['referrer_id'])
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserinvitation' + param_sort + param_page + \
-                  param_pageSize + param_group + param_filter
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'sort': 'Created-desc',
+        'page': 1,
+        'pageSize': 20,
+        'group': '',
+        'filter': 'PanelUserId~eq~' + str(config['test_data']['referrer_id'])
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserinvitation'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     cursor = conn.cursor()
     cursor.execute("SELECT TOP(20) inv.Id, sur.Name, inv.SurveyId, scol.SettingsJSON \
                     FROM data.Invitations inv \
@@ -68,7 +69,7 @@ def test_POST_SessionsIdStatus_200(pr_url, pr_headers, config):
 
 
 def test_POST_AdminUserInvitationIdChangeStatus_400_InvalidJSON(pr_url, pr_headers, config):
-    param_invitationid = '217938227'
+    #param_invitationid = '217938227'
     request_url = pr_url + str(config['panels']['em']['id']) + '/sessions/' + \
                   str(config['test_data']['invitation_id']) + '/status'
     payload = '{93}'

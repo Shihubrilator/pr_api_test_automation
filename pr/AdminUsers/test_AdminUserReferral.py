@@ -2,13 +2,14 @@ import requests
 
 
 def test_GET_AdminUserReferral_200(pr_url, pr_headers, config, conn):
-    param_sort = '?sort=Id-desc'
-    param_page = '&page=1'
-    param_pageSize = '&pageSize=20'
-    param_filter = '&filter=ReferredByUserId~eq~' + str(config['test_data']['referrer_id'])
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserreferral' + param_sort + param_page + \
-                  param_pageSize + param_filter
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'sort': 'Id-desc',
+        'page': 1,
+        'pageSize': 20,
+        'filter': 'ReferredByUserId~eq~' + str(config['test_data']['referrer_id'])
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserreferral'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     cursor = conn.cursor()
     cursor.execute("SELECT ReferralNiceName, ReferralEmail, ReferralId, Domain \
                    FROM data.PanelUserReferrals WHERE Id = " + str(config['test_data']['referral_id']))

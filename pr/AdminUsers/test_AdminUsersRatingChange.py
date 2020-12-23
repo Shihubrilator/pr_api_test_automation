@@ -3,14 +3,15 @@ import requests
 
 
 def test_GET_AdminusersRatingChange_200_NotEmptyData(pr_url, pr_headers, config, conn):
-    param_sort = '?sort=Created-desc'
-    param_page = '&page=1'
-    param_pageSize = '&pageSize=20'
-    param_group = '&group='
-    param_filter = '&filter=UserId~eq~' + str(config['test_data']['rating_user_id'])
-    request_url = pr_url + str(config['panels']['em']['id']) + '/AdminUserRatingChange' + param_sort + param_page + param_pageSize + \
-                  param_group + param_filter
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'sort': 'Created-desc',
+        'page': 1,
+        'pageSize': 20,
+        'group': '',
+        'filter': 'UserId~eq~' + str(config['test_data']['rating_user_id'])
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/AdminUserRatingChange'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     cursor = conn.cursor()
     cursor.execute("SELECT Id, Increment FROM data.RatingChanges \
                     WHERE UserId=" + str(config['test_data']['rating_user_id']))

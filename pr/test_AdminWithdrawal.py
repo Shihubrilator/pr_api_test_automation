@@ -3,14 +3,16 @@ import json
 
 
 def test_GET_AdminWithdrawal_200(pr_url, pr_headers, config, conn):
-    param_sort = '?sort='
-    param_page = '&page=1'
-    param_pagesize = '&pageSize=20'
-    param_group = '&group='
-    param_filter = '&filter=PanelUserId~eq~' + str(config['test_data']['referrer_id'])
-    request_url = pr_url + str(config['panels']['em']['id']) + '/AdminWithdrawal' + param_sort + param_page + \
-        param_pagesize + param_group + param_filter
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'sort': '',
+        'page': 1,
+        'pageSize': 20,
+        'group': '',
+        'filter': 'PanelUserId~eq~' + str(config['test_data']['referrer_id'])
+
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/AdminWithdrawal'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     cursor = conn.cursor()
     data = r.json()['Data'][0]
     cursor.execute("SELECT wr.Id, wr.RequestTypeId, wr.CurrencyId, wr.Amount, wr.Requisites, wr.Updated, usr.NiceName \

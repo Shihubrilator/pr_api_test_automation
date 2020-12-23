@@ -3,14 +3,15 @@ import requests
 
 
 def test_Adminusers_200(pr_url, pr_headers, config, conn):
-    param_sort = '?sort='
-    param_page = '&page=1'
-    param_pagesize = '&pageSize=20'
-    param_group = '&group='
-    param_filter = '&filter=Id~eq~' + str(config['test_data']['user_id']) + '~and~Status~eq~0' #190868777
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers' + \
-                  param_sort + param_page + param_pagesize + param_group + param_filter
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'sort': '',
+        'page': 1,
+        'pageSize': 20,
+        'group': '',
+        'filter': 'Id~eq~' + str(config['test_data']['user_id']) + '~and~Status~eq~0' #190868777
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     r_json = r.json()
     cursor = conn.cursor()
     cursor.execute("SELECT NiceName, PanelId FROM sec.Users WHERE Id = " + str(config['test_data']['user_id']))
@@ -152,34 +153,42 @@ def test_POST_AdminusersIdRestore_404_UserNotExist(pr_url, pr_headers, config):
 
 
 def test_GET_AdminusersLegacyIsemailavailable_200_true(pr_url, pr_headers, config):
-    param_email = '?email=31575530621@yandex.ru'
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers/legacy/isemailavailable' + param_email
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'email': '31575530621@yandex.ru'
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers/legacy/isemailavailable'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     assert isinstance(r, requests.Response)
     assert r is not None
     assert r.json()['Data']['result'] == 'Ok'
 
 
 def test_GET_AdminusersLegacyIsemailavailable_200_InvalidEmail(pr_url, pr_headers, config):
-    param_email = '?email=111'
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers/legacy/isemailavailable' + param_email
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'email': '111'
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers/legacy/isemailavailable'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     assert isinstance(r, requests.Response)
     assert r is not None
     assert r.json()['Data']['result'] == 'Invalid'
 
 
 def test_GET_AdminusersLegacyIsemailavailable_200_ForbiddenDomain(pr_url, pr_headers, config):
-    param_email = '?email=111@yopmail.com'
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers/legacy/isemailavailable' + param_email
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'email': '111@yopmail.com'
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers/legacy/isemailavailable'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     assert r.json()['Data']['result'] == 'Invalid'
 
 
 def test_GET_AdminusersLegacyIsemailavailable_200_NotAvailableEmail(pr_url, pr_headers, config):
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers/legacy/isemailavailable?email=' + \
-                  config['test_data']['existing_email']
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'email': config['test_data']['existing_email']
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminusers/legacy/isemailavailable'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     assert isinstance(r.json(), dict)
     assert r is not None
     assert r.json()['Data']['result'] == 'NotAvailable'
@@ -188,8 +197,11 @@ def test_GET_AdminusersLegacyIsemailavailable_200_NotAvailableEmail(pr_url, pr_h
 '''
 #?????? ШО ЗА ДИЧЬ???????
 def test_GET_AdminusersLegacyIsemailavailable_403_WrongPanelID(pr_url, pr_headers, pr_panelId):
-    request_url = pr_url + str(pr_panelId) + '/adminusers/bulk/export?fulldata=false'
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'fulldata': 'false'
+    }
+    request_url = pr_url + str(pr_panelId) + '/adminusers/bulk/export'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     assert isinstance(r, requests.Response)
     assert r is not None
     r.json()['Status'] == 403

@@ -3,12 +3,13 @@ import json
 
 
 def test_GET_CollectorTemplates_200(pr_url, pr_headers, config, conn):
-    param_page = '?page=1'
-    param_pagesize = '&pageSize=20'
-    param_filter = '&filter=Deleted~eq~false~and~SurveyId~eq~' + str(config['test_data']['ct_proj_id'])
-    request_url = pr_url + str(config['panels']['em']['id']) + '/collectorTemplates' + \
-                param_page + param_pagesize + param_filter
-    r = requests.get(url=request_url, headers=pr_headers)
+    params = {
+        'page': 1,
+        'pageSize': 20,
+        'filter': 'Deleted~eq~false~and~SurveyId~eq~' + str(config['test_data']['ct_proj_id'])
+    }
+    request_url = pr_url + str(config['panels']['em']['id']) + '/collectorTemplates'
+    r = requests.get(url=request_url, headers=pr_headers, params=params)
     data = r.json()['Data'][0]
     cursor = conn.cursor()
     cursor.execute('SELECT sct.Id, sct.PanelId, sct.Name, sct.SurveyId, pnl.Name, srv.State\
