@@ -25,7 +25,7 @@ test_data:
   project_id: 765179676
   culture: ru-Ru
   city_id: 11902
-  state_id: 2156
+  state_id: 2156 #remove
   country_id: 1019
   referrer_id: 900002
   referral_id: 630862904
