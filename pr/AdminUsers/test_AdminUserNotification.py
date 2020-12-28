@@ -1,7 +1,9 @@
+import pytest
 import requests
 import pymongo
 
-#связь монги и id респа??
+
+@pytest.mark.skip()
 def test_GET_AdminUserNotification_200(pr_url, pr_headers, config):
     params = {
         'UserId': str(config['test_data']['referrer_id']),
@@ -14,6 +16,7 @@ def test_GET_AdminUserNotification_200(pr_url, pr_headers, config):
     request_url = pr_url + str(config['panels']['em']['id']) + '/adminusernotification'
     r = requests.get(url=request_url, headers=pr_headers, params=params)
 
+    # связь монги и id респа??
     #mongo OIConverterNew MessagesBatchs Template
     clnt = pymongo.MongoClient("Rhenium:27017")
     db = clnt.OIConverterNew
@@ -21,3 +24,5 @@ def test_GET_AdminUserNotification_200(pr_url, pr_headers, config):
     print(result[0]['Template'])
 
     clnt.close()
+
+    assert True

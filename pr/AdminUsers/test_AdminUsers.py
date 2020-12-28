@@ -209,8 +209,7 @@ def test_GET_AdminusersLegacyIsemailavailable_403_WrongPanelID(pr_url, pr_header
 
 
 def test_PUT_AdminUserProfileId_200(pr_url, pr_headers, config):
-    param_userid = '187579300'
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserprofile/' + param_userid
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserprofile/' + str(config['test_data']['user_id'])
     payload = json.dumps(config['test_data']['json'])
     r = requests.put(url=request_url, data=payload, headers=pr_headers)
     assert isinstance(r, requests.Response)

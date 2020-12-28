@@ -21,20 +21,20 @@ pr:
     content_type: application/json
 test_data:
   existing_email: vsevolod.ovchinnikov@gmail.com
-  user_id: 187567053 #187565196
+  user_id: 765264087
   project_id: 765179676
   culture: ru-Ru
   city_id: 11902
   state_id: 2156
   country_id: 1019
   referrer_id: 900002
-  referral_id: 190606755
-  invitation_id: 190834629
+  referral_id: 630862904
+  invitation_id: 765266400
   rating_user_id: 190868777
-  json: {"Id": 187579300,"Name": "Тестр","Surname": "Тестр","BirthDate": "1999-06-21T00:00:00","Gender": 2,"PostalCode": null,"CountryId": 1001,"CountryName": "Российская Федерация","StateId": 2044,"StateName": "Калужская область","CityId": 10521,"CityName": null,"CurrencyId": 301,"CurrencyCode": null,"Rating": 100,"PassedSurveysCount": null,"LastPassedSurveyDT": null,"Age": 19}
+  json: {"Id": 765264087,"Name": "Тестр","Surname": "Тестр","BirthDate": "1999-06-21T00:00:00","Gender": 2,"PostalCode": null,"CountryId": 1001,"CountryName": "Российская Федерация","StateId": 2044,"StateName": "Калужская область","CityId": 10521,"CityName": null,"CurrencyId": 301,"CurrencyCode": null,"Rating": 100,"PassedSurveysCount": null,"LastPassedSurveyDT": null,"Age": 19}
   clientstaff_id: 1436505
   ct_proj_id: 765205094
-  ct_proj_id_post: 216616120
+  ct_proj_id_post: 765205094
   ct_proj_id_arch: 696433676
   ct_id: 765178869
   withdrawal_id: 748812048

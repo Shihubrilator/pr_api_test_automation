@@ -36,7 +36,8 @@ def test_GET_AdminUserInvitation_200(pr_url, pr_headers, config, conn):
 
 
 def test_GET_AdminUserInvitationId_200(pr_url, pr_headers, config, conn):
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserinvitation/' + str(config['test_data']['invitation_id'])
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserinvitation/' \
+                  + str(config['test_data']['invitation_id'])
     r = requests.get(url=request_url, headers=pr_headers)
     r_json = r.json()
     cursor = conn.cursor()
@@ -48,31 +49,34 @@ def test_GET_AdminUserInvitationId_200(pr_url, pr_headers, config, conn):
 
 
 def test_DELETE_AdminUsersInvitationInvitationId(pr_url, pr_headers, config):
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserinvitation/' + str(config['test_data']['invitation_id'])
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserinvitation/' \
+                  + str(config['test_data']['invitation_id'])
     r = requests.delete(url=request_url, headers=pr_headers)
     assert r.json()['Result'] == 'ok'
 
 
 def test_POST_AdminUserInvitationIdRestore_200(pr_url, pr_headers, config):
-    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserinvitation/' + str(config['test_data']['invitation_id']) + '/restore'
+    request_url = pr_url + str(config['panels']['em']['id']) + '/adminuserinvitation/' \
+                  + str(config['test_data']['invitation_id']) + '/restore'
     r = requests.post(url=request_url, headers=pr_headers)
     assert r.json()['Result'] == 'ok'
 
 
 def test_POST_SessionsIdStatus_200(pr_url, pr_headers, config):
-    request_url = pr_url + str(config['panels']['em']['id']) + '/sessions/' + str(config['test_data']['invitation_id']) + '/status'
+    request_url = pr_url + str(config['panels']['em']['id']) + '/sessions/' \
+                  + str(config['test_data']['invitation_id']) + '/status'
     payload = '{"newStatus": 91}'
     r = requests.post(url=request_url, headers=pr_headers, data=payload)
     assert isinstance(r, requests.Response)
     assert r is not None
+    print(r.json())
     assert r.json()['Data']['FinishStatus'] == 91
 
 
 def test_POST_AdminUserInvitationIdChangeStatus_400_InvalidJSON(pr_url, pr_headers, config):
-    #param_invitationid = '217938227'
     request_url = pr_url + str(config['panels']['em']['id']) + '/sessions/' + \
                   str(config['test_data']['invitation_id']) + '/status'
-    payload = '{93}'
+    payload = '{91}'
     r = requests.post(url=request_url, data=payload, headers=pr_headers)
     assert r.json()['ErrorCode'] == 'Invalid newStatus type'
 
