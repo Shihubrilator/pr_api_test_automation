@@ -64,12 +64,11 @@ def test_POST_AdminUserInvitationIdRestore_200(pr_url, pr_headers, config):
 
 def test_POST_SessionsIdStatus_200(pr_url, pr_headers, config):
     request_url = pr_url + str(config['panels']['em']['id']) + '/sessions/' \
-                  + str(config['test_data']['invitation_id']) + '/status'
+                  + str(config['test_data']['session_id']) + '/status'
     payload = '{"newStatus": 91}'
     r = requests.post(url=request_url, headers=pr_headers, data=payload)
     assert isinstance(r, requests.Response)
     assert r is not None
-    print(r.json())
     assert r.json()['Data']['FinishStatus'] == 91
 
 

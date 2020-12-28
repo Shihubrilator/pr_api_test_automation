@@ -30,6 +30,7 @@ test_data:
   referrer_id: 900002
   referral_id: 630862904
   invitation_id: 765266400
+  session_id: 765267453
   rating_user_id: 190868777
   json: {"Id": 765264087,"Name": "Тестр","Surname": "Тестр","BirthDate": "1999-06-21T00:00:00","Gender": 2,"PostalCode": null,"CountryId": 1001,"CountryName": "Российская Федерация","StateId": 2044,"StateName": "Калужская область","CityId": 10521,"CityName": null,"CurrencyId": 301,"CurrencyCode": null,"Rating": 100,"PassedSurveysCount": null,"LastPassedSurveyDT": null,"Age": 19}
   clientstaff_id: 1436505
