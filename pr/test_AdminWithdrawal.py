@@ -59,7 +59,7 @@ def test_GET_AdminWithdrawalId_200(pr_url, pr_headers, config, conn):
     #assert requisites['Type'] == expected_wallet['Type']
     assert requisites['Number'] == expected_wallet['Number']
     assert requisites['Operator'] == expected_wallet['Operator']
-    assert data['Updated'][:-1] == expected_data[5].isoformat()
+    assert data['Updated'] == expected_data[5].isoformat()
     assert data['PanelUserNiceName'] == expected_data[6]
 
 

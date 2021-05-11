@@ -1,7 +1,7 @@
 import pytest
 import requests
 import pymongo
-from bson import objectid
+#from bson import objectid
 
 
 @pytest.mark.skip()
@@ -23,7 +23,7 @@ def test_GET_AdminUserNotification_200(pr_url, pr_headers, config):
     db = clnt.OIConverterNew
     message = db.Messages.find({"UserId": 900002})
     #result = db.MessagesBatchs.find({"ObjectId": })
-    print(result[0]['Template'])
+    #print(result[0]['Template'])
 
     clnt.close()
 

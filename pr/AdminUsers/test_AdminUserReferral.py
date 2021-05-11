@@ -18,6 +18,7 @@ def test_GET_AdminUserReferral_200(pr_url, pr_headers, config, conn):
     expected_email = xpctd_data[0][1][0:xpctd_data[0][1].find('@')]
     expected_email = expected_email.replace(str(expected_email[2:len(expected_email)-1]), '***')
     data = r.json()['Data'][0]
-    assert data['ReferralNiceName'] == xpctd_data[0][0]
+    assert data['ReferralNiceName'] == xpctd_data[0][0], 'ReferralNiceName is "' + xpctd_data[0][0] + \
+                                                         '", but expected "' + data['ReferralNiceName'] + '"'
     assert data['ReferralEmail'] == expected_email+'@'+xpctd_data[0][3]
     assert data['ReferralId'] == xpctd_data[0][2]

@@ -63,25 +63,26 @@ def test_POST_AdminUserInvitationIdRestore_200(pr_url, pr_headers, config):
 
 
 def test_POST_SessionsIdStatus_200(pr_url, pr_headers, config):
-    request_url = pr_url + str(config['panels']['em']['id']) + '/sessions/' \
-                  + str(config['test_data']['session_id']) + '/status'
-    payload = '{"newStatus": 91}'
-    r = requests.post(url=request_url, headers=pr_headers, data=payload)
+    request_url = pr_url + str(config['panels']['em']['id']) + '/sessions-ext/' \
+                  + str(config['test_data']['session_id'])
+    payload = '{"seStatus": 91}'
+    r = requests.patch(url=request_url, headers=pr_headers, data=payload)
     assert isinstance(r, requests.Response)
     assert r is not None
-    assert r.json()['Data']['FinishStatus'] == 91
+    assert r.status_code == 200
+    assert r.json()['Data']['Status'] == 91
 
 
 def test_POST_AdminUserInvitationIdChangeStatus_400_InvalidJSON(pr_url, pr_headers, config):
-    request_url = pr_url + str(config['panels']['em']['id']) + '/sessions/' + \
-                  str(config['test_data']['invitation_id']) + '/status'
+    request_url = pr_url + str(config['panels']['em']['id']) + '/sessions-ext/' \
+                  + str(config['test_data']['session_id'])
     payload = '{91}'
-    r = requests.post(url=request_url, data=payload, headers=pr_headers)
-    assert r.json()['ErrorCode'] == 'Invalid newStatus type'
+    r = requests.patch(url=request_url, data=payload, headers=pr_headers)
+    assert r.status_code == 500
 
 
 def test_POST_AdminUserInvitationIdChangeStatus_400_NoSuchId(pr_url, pr_headers, config):
-    request_url = pr_url + str(config['panels']['em']['id']) + '/sessions/2331/status'
-    payload = '{"newStatus": 91}'
-    r = requests.post(url=request_url, data=payload, headers=pr_headers)
-    r.json()['ErrorCode'] == 'Unknown Session'
+    request_url = pr_url + str(config['panels']['em']['id']) + '/sessions-ext/2331'
+    payload = '{"seStatus": 91}'
+    r = requests.patch(url=request_url, data=payload, headers=pr_headers)
+    assert r.status_code == 404
