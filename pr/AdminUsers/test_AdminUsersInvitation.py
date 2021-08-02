@@ -15,7 +15,7 @@ def test_GET_AdminUserInvitation_200(pr_url, pr_headers, config, conn):
     cursor = conn.cursor()
     cursor.execute("SELECT TOP(20) inv.Id, sur.Name, inv.SurveyId, scol.SettingsJSON \
                     FROM data.Invitations inv \
-                    JOIN data.SurveyCollectors scol ON inv.SurveyId = scol.SurveyId \
+                    JOIN data.SurveyCollectors scol ON inv.SurveyCollectorId = scol.id  \
                     JOIN data.Surveys sur ON inv.SurveyId = sur.Id \
                     WHERE inv.PanelUserId = " + str(config['test_data']['referrer_id']) + " \
                     ORDER BY inv.Id DESC")
@@ -32,7 +32,6 @@ def test_GET_AdminUserInvitation_200(pr_url, pr_headers, config, conn):
             assert key['SurveyName'] == data[0][1] #'Сопельки' #[data].[Surveys] Name
             assert key['SurveyId'] == data[0][2] #190834489 #[data].[Invitations] SurveyId
             assert key['Reward'] == reward#'10.00 - 20.00 баллов' #[data].[SurveyCollectors] SettingsJSON SurveyReward
-            break
 
 
 def test_GET_AdminUserInvitationId_200(pr_url, pr_headers, config, conn):

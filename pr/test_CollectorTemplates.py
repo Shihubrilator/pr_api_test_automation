@@ -18,12 +18,17 @@ def test_GET_CollectorTemplates_200(pr_url, pr_headers, config, conn):
                     join data.Surveys srv on sct.SurveyId = srv.Id\
                     where sct.SurveyId = ' + str(config['test_data']['ct_proj_id']) + ' order by sct.Id desc')
     expected_data = cursor.fetchone()
-    assert data['Id'] == expected_data[0]
-    assert data['PanelId'] == expected_data[1]
-    assert data['Name'] == expected_data[2]
-    assert data['SurveyId'] == expected_data[3]
-    assert data['PanelName'] == expected_data[4]
-    assert data['SurveyState'] == expected_data[5]
+    assert data['Id'] == expected_data[0], 'Expected "{}", but Id is "{}"'.format(expected_data[0], r.json()['Id'])
+    assert data['PanelId'] == expected_data[1], \
+        'Expected "{}", but PanelId is "{}"'.format(expected_data[1], r.json()['PanelId'])
+    assert data['Name'] == expected_data[2], \
+        'Expected "{}", but Name is "{}"'.format(expected_data[2], r.json()['Name'])
+    assert data['SurveyId'] == expected_data[3], \
+        'Expected "{}", but SurveyId is "{}"'.format(expected_data[3], r.json()['SurveyId'])
+    assert data['PanelName'] == expected_data[4], \
+        'Expected "{}", but PanelName is "{}"'.format(expected_data[4], r.json()['PanelName'])
+    assert data['SurveyState'] == expected_data[5], \
+        'Expected "{}", but SurveyState is "{}"'.format(expected_data[5], r.json()['SurveyState'])
 
 
 def test_GET_CollectorTemplatesId_200(pr_url, pr_headers, config, conn):
@@ -39,23 +44,29 @@ def test_GET_CollectorTemplatesId_200(pr_url, pr_headers, config, conn):
                     where sct.Id = ' + str(config['test_data']['ct_id']))
     xpctd_data = cursor.fetchone()
     data = r.json()['Data']
-    assert data['Id'] == xpctd_data[0]
-    assert data['SurveyId'] == xpctd_data[1]
-    assert data['PanelId'] == xpctd_data[2]
-    assert data['ValidationType'] == xpctd_data[3]
-    assert data['Name'] == xpctd_data[4]
-    assert data['AutoFill'] == xpctd_data[5]
-    assert data['Deleted'] == xpctd_data[6]
-    assert data['PanelName'] == xpctd_data[7]
-    assert data['SurveyName'] == xpctd_data[8]
-    assert data['ShowCaptcha'] == json.loads(xpctd_data[9])['ShowCaptcha']
-    #assert data['AllowDuplicates'] - хз где живет в базе
-    assert json.loads(data['SurveyRewards']) == json.loads(xpctd_data[10])['SurveyRewards']
-    assert data['InvitationTemplate'] == json.loads(xpctd_data[10])['InvitationTemplate']
-    assert data['ReminderTemplate'] == json.loads(xpctd_data[10])['ReminderTemplate']
-    assert data['SurveyState'] == xpctd_data[11]
-    #assert data['IsValid'] - хз где живет в базе
-    #ErrorMessage и ParsedString - хз где живут в базе
+    assert data['Id'] == xpctd_data[0], 'Expected "{}", but "{}"'.format(xpctd_data[0], data['Id'])
+    assert data['SurveyId'] == xpctd_data[1], 'Expected "{}", but "{}"'.format(xpctd_data[1], data['SurveyId'])
+    assert data['PanelId'] == xpctd_data[2], 'Expected "{}", but "{}"'.format(xpctd_data[2], data['PanelId'])
+    assert data['ValidationType'] == xpctd_data[3], \
+        'Expected "{}", but "{}"'.format(xpctd_data[3], data['ValidationType'])
+    assert data['Name'] == xpctd_data[4], 'Expected "{}", but "{}"'.format(xpctd_data[4], data['Name'])
+    assert data['AutoFill'] == xpctd_data[5], 'Expected "{}", but "{}"'.format(xpctd_data[5], data['AutoFill'])
+    assert data['Deleted'] == xpctd_data[6], 'Expected "{}", but "{}"'.format(xpctd_data[6], data['Deleted'])
+    assert data['PanelName'] == xpctd_data[7], 'Expected "{}", but "{}"'.format(xpctd_data[7], data['PanelName'])
+    assert data['SurveyName'] == xpctd_data[8], 'Expected "{}", but "{}"'.format(xpctd_data[8], data['SurveyName'])
+    assert data['ShowCaptcha'] == json.loads(xpctd_data[9])['ShowCaptcha'], \
+        'Expected "{}", but "{}"'.format(json.loads(xpctd_data[9])['ShowCaptcha'], data['ShowCaptcha'])
+    assert data['AllowDuplicates'] == json.loads(xpctd_data[10])['AllowDuplicates'], \
+        'Expected "{}", but "{}"'.format(json.loads(xpctd_data[10])['AllowDuplicates'], data['AllowDuplicates'])
+    assert json.loads(data['SurveyRewards']) == json.loads(xpctd_data[10])['SurveyRewards'], \
+        'Expected "{}", but "{}"'.format(json.loads(xpctd_data[10])['SurveyRewards'], data['SurveyRewards'])
+    assert data['InvitationTemplate'] == json.loads(xpctd_data[10])['InvitationTemplate'], \
+        'Expected "{}", but "{}"'.format(json.loads(xpctd_data[10])['InvitationTemplate'], data['InvitationTemplate'])
+    assert data['ReminderTemplate'] == json.loads(xpctd_data[10])['ReminderTemplate'], \
+        'Expected "{}", but "{}"'.format(json.loads(xpctd_data[10])['ReminderTemplate'], data['ReminderTemplate'])
+    assert data['SurveyState'] == xpctd_data[11], 'Expected "{}", but "{}"'.format(xpctd_data[11], data['SurveyState'])
+    #assert data['IsValid'] - что это, зачем и откуда беоется?
+    #ErrorMessage и ParsedString - что это, зачем и откуда беоется?
 
 
 def test_GET_CollectorTemplatesId_400_IncorrectID(pr_url, pr_headers, config):
