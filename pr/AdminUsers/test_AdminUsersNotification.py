@@ -1,11 +1,10 @@
-import pytest
 import requests
 import pymongo
-#from bson import objectid
+from bson.objectid import ObjectId
 
 
-@pytest.mark.skip()
-def test_GET_AdminUserNotification_200(pr_url, pr_headers, config):
+#@pytest.mark.skip()
+def test_GET_AdminUserNotification_200(pr_url, pr_headers, config, mongo):
     params = {
         'UserId': config['test_data']['referrer_id'],
         'sort': 'Created-desc',
@@ -16,15 +15,22 @@ def test_GET_AdminUserNotification_200(pr_url, pr_headers, config):
     }
     request_url = pr_url + str(config['panels']['em']['id']) + '/adminusernotification'
     r = requests.get(url=request_url, headers=pr_headers, params=params)
+    data = r.json()['Data']
 
-    #+ Id есть в Messages UserId
-    #mongo OIConverterNew MessagesBatchs Template
-    clnt = pymongo.MongoClient("Rhenium:27017")
-    db = clnt.OIConverterNew
-    message = db.Messages.find({"UserId": 900002})
-    #result = db.MessagesBatchs.find({"ObjectId": })
-    #print(result[0]['Template'])
+    message = mongo.Messages.find({"UserId": config['test_data']['referrer_id']}).limit(1)[0]
+    batch = mongo.MessagesBatchs.find({'_id': ObjectId(message['BatchId'])})[0]
 
-    clnt.close()
+    preview_text = batch['Template']
+    preview_text = preview_text.replace('{UserName}', message['TemplateParameters']['UserName'])
+    preview_text = preview_text.replace('{AcceptUrl}', message['TemplateParameters']['AcceptUrl'])
+    preview_text = preview_text.replace('{UnsubscribeUrl}', message['TemplateParameters']['UnsubscribeUrl'])
+    preview_text = preview_text.replace('{RejectUrl}', message['TemplateParameters']['RejectUrl'])
 
-    assert True
+    assert len(data) == params['pageSize']
+    assert data[0]['Id'] == str(message['_id'])
+    assert data[0]['Created'] == batch['Created'].isoformat()[:-3] + 'Z'
+    assert data[0]['Channel'] == batch['Channel']
+    assert data[0]['NotificationEvent'] == batch['NotificationEventId']
+    assert data[0]['SendingDateTime'] == batch['Created'].isoformat()[:-3] + 'Z'
+    assert data[0]['PreviewText'] == preview_text
+    assert data[0]['PreviewSubject'] == batch['AdditionalParameters']['subject']

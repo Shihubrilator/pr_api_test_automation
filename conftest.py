@@ -3,6 +3,7 @@ import requests
 import pyodbc
 import json
 import yaml
+import pymongo
 from bs4 import BeautifulSoup as Soup
 
 
@@ -31,6 +32,14 @@ def conn():
     c = get_db_connect()
     yield c
     c.close()
+
+
+@pytest.fixture(scope='session')
+def mongo():
+    mongo_client = pymongo.MongoClient("Rhenium:27017")
+    db = mongo_client.OIConverterNew
+    yield db
+    mongo_client.close()
 
 
 def pytest_addoption(parser):
