@@ -1,9 +1,7 @@
 import requests
-import pymongo
 from bson.objectid import ObjectId
 
 
-#@pytest.mark.skip()
 def test_GET_AdminUserNotification_200(pr_url, pr_headers, config, mongo):
     params = {
         'UserId': config['test_data']['referrer_id'],
