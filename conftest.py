@@ -7,18 +7,18 @@ import pymongo
 from bs4 import BeautifulSoup as Soup
 
 
+def pytest_addoption(parser):
+    parser.addoption('--server', action='store', default='dev', help="Choose server: qa or dev")
+    parser.addoption("--urltype", action="store", default='1', help="выбор апишного пути. 1 - api/v2/admin/panel/")
+
+
 def get_config():
-    with open("..\config.yml", "r", encoding='utf8') as ymlfile:
+    with open("..\\config.yml", "r", encoding='utf8') as ymlfile:
         return yaml.load(ymlfile, Loader=yaml.FullLoader)
 
 
-def get_db_connect():
-    config = get_config()
-    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};'
-                          'SERVER=' + config['sqldb']['host'] + ';'
-                          'DATABASE=' + config['sqldb']['db'] + ';'
-                          'UID=' + config['sqldb']['user'] + ';'
-                          'PWD=' + str(config['sqldb']['passwd']))
+def get_db_connect(connection_string):
+    conn = pyodbc.connect(connection_string)
     return conn
 
 
@@ -28,23 +28,22 @@ def config():
 
 
 @pytest.fixture(scope='session')
-def conn():
-    c = get_db_connect()
+def conn(request, config):
+    server = request.config.getoption('server')
+    c = get_db_connect(config['sqldb'][server + '_connection_string'])
     yield c
     c.close()
 
 
 @pytest.fixture(scope='session')
-def mongo():
-    mongo_client = pymongo.MongoClient("Rhenium:27017")
+def mongo(request):
+    if request.config.getoption('server') == 'qa':
+        mongo_client = pymongo.MongoClient("Rhenium:27017")
+    else:
+        mongo_client = pymongo.MongoClient("mintaka01:50401")
     db = mongo_client.OIConverterNew
     yield db
     mongo_client.close()
-
-
-def pytest_addoption(parser):
-    """задание кастомного ключа для переключения api_path"""
-    parser.addoption("--urltype", action="store", default='1', help="выбор апишного пути. 1 - api/v2/admin/panel/")
 
 
 @pytest.fixture(scope='session')
@@ -87,7 +86,7 @@ def pr_headers(login, config):
 def get_panels_meta():
     """параметрицзация для test_AdminPanel"""
     config = get_config()
-    conn = get_db_connect()
+    conn = get_db_connect(config['sqldb']['dev_connection_string'])
 
     cursor = conn.cursor()
     cursor.execute("SELECT Id, CurrencyId, SettingsJSON FROM data.Panels")
@@ -124,7 +123,7 @@ def get_panels_meta():
 
 @pytest.fixture()
 def pr_panel_short_label(config):
-    conn = get_db_connect()
+    conn = get_db_connect(config['sqldb']['dev_connection_string'])
 
     cursor = conn.cursor()
     cursor.execute('SELECT SettingsJSON FROM data.Panels WHERE Id=' + str(config['panels']['em']['id']))

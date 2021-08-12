@@ -1,8 +1,6 @@
 sqldb:
-  host: dubnium\testsql16
-  db: qa_PanelRiderDB
-  user: testdbuser
-  passwd: 111111
+  qa_connection_string: 'DRIVER={ODBC Driver 17 for SQL Server};SERVER=dubnium\testsql16;DATABASE=qa_PanelRiderDB;UID=testdbuser;PWD=111111;'
+  dev_connection_string: 'DRIVER={ODBC Driver 17 for SQL Server};SERVER=betelgeuse01,50201;DATABASE=PanelRiderDB;Trusted_Connection=yes;'
 panels:
   em:
     id: 1029695
@@ -13,7 +11,9 @@ panels:
 pr:
   login: admin@expertnoemnenie.ru
   passwd: 111111
-  domain: http://qa.panelrider.com/
+  domain: https://cp.dev-pr.panelrider.com/
+  qa_domain: http://qa.panelrider.com/
+  dev_domain: https://cp.dev-pr.panelrider.com/
   api_path:
     1: api/v2/admin/panel/
   headers:
